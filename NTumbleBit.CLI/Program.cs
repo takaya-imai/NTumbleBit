@@ -105,14 +105,24 @@ namespace NTumbleBit.CLI
 					stateMachine.Start(broadcasterCancel.Token);
 					Logs.Main.LogInformation("State machines started");
 				}
-				Logs.Main.LogInformation("Press enter to stop");
-				Console.ReadLine();
-				broadcasterCancel.Cancel();
+				Logs.Main.LogInformation("Press Ctrl+C to stop");
+				Console.CancelKeyPress += (sender, e) => {
+					broadcasterCancel.Cancel();
+					throw new StopDetectException("Pressed Ctrl+C");
+				};
+				while (true) {
+					System.Threading.Thread.Sleep(5000);
+				}
 			}
 			catch(ConfigException ex)
 			{
 				if(!string.IsNullOrEmpty(ex.Message))
 					Logs.Configuration.LogError(ex.Message);
+			}
+			catch(StopDetectException ex)
+			{
+				if(!string.IsNullOrEmpty(ex.Message))
+					Logs.Main.LogInformation(ex.Message);
 			}
 			catch(Exception ex)
 			{
