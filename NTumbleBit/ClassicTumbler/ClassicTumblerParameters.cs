@@ -21,8 +21,8 @@ namespace NTumbleBit.ClassicTumbler
 			RealTransactionCount = promise.RealTransactionCount;
 			FakeFormat = promise.FakeFormat;
 
-			Denomination = Money.Coins(1.0m);
-			Fee = Money.Coins(0.01m);
+			Denomination = Money.Coins(0.01m);
+			Fee = Money.Coins(0.0001m);
 			CycleGenerator = new OverlappedCycleGenerator();
 		}
 
