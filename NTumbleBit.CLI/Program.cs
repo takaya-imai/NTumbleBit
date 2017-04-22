@@ -108,7 +108,7 @@ namespace NTumbleBit.CLI
 				Logs.Main.LogInformation("Press Ctrl+C to stop");
 				Console.CancelKeyPress += (sender, e) => {
 					broadcasterCancel.Cancel();
-					throw new StopDetectException("Pressed Ctrl+C");
+					throw new Exception("Pressed Ctrl+C");
 				};
 				while (true) {
 					System.Threading.Thread.Sleep(5000);
@@ -118,11 +118,6 @@ namespace NTumbleBit.CLI
 			{
 				if(!string.IsNullOrEmpty(ex.Message))
 					Logs.Configuration.LogError(ex.Message);
-			}
-			catch(StopDetectException ex)
-			{
-				if(!string.IsNullOrEmpty(ex.Message))
-					Logs.Main.LogInformation(ex.Message);
 			}
 			catch(Exception ex)
 			{
