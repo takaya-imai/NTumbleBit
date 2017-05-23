@@ -326,6 +326,10 @@ namespace NTumbleBit.PuzzleSolver
 			tx.Inputs.Add(new TxIn(coin.Outpoint));
 			tx.Outputs.Add(new TxOut(coin.Amount, offer.Hash));
 			tx.Outputs[0].Value -= InternalState.OfferTransactionFee;
+			Console.WriteLine("CreateUnsignedOfferTransaction: InternalState.OfferTransactionFee");
+			Console.WriteLine(InternalState.OfferTransactionFee);
+			Console.WriteLine("CreateUnsignedOfferTransaction: tx.Outputs[0].Value");
+			Console.WriteLine(tx.Outputs[0].Value);
 			return tx;
 		}
 
@@ -339,7 +343,15 @@ namespace NTumbleBit.PuzzleSolver
 			tx.Inputs[0].Sequence = 0;
 			tx.Outputs.Add(new TxOut(coin.Amount, redeemDestination));
 			var vSize = tx.GetVirtualSize() + 80;
+			Console.WriteLine("CreateOfferRedeemTransaction: tx.GetVirtualSize()");
+			Console.WriteLine(tx.GetVirtualSize());
+			Console.WriteLine("CreateOfferRedeemTransaction: vSize");
+			Console.WriteLine(vSize);
 			tx.Outputs[0].Value -= feeRate.GetFee(vSize);
+			Console.WriteLine("CreateOfferRedeemTransaction: feeRate.GetFee(vSize)");
+			Console.WriteLine(feeRate.GetFee(vSize));
+			Console.WriteLine("CreateOfferRedeemTransaction: tx.Outputs[0].Value");
+			Console.WriteLine(tx.Outputs[0].Value);
 			tx.Inputs[0].ScriptSig = new Script(OpcodeType.OP_0) + Op.GetPushOp(coin.Redeem.ToBytes());
 
 			var redeemTransaction = new TrustedBroadcastRequest

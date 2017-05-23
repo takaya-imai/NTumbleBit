@@ -260,6 +260,12 @@ namespace NTumbleBit.PuzzleSolver
 			tx.AddInput(new TxIn(InternalState.EscrowedCoin.Outpoint));
 			tx.AddOutput(new TxOut(InternalState.EscrowedCoin.Amount, offerScript.Hash));
 			InternalState.OfferTransactionFee = feeRate.GetFee(tx.GetVirtualSize() + 72 * 2 + InternalState.EscrowedCoin.Redeem.Length);
+                        Console.WriteLine("CheckBlindedFactors: tx.GetVirtualSize()");
+                        Console.WriteLine(tx.GetVirtualSize());
+                        Console.WriteLine("CheckBlindedFactors: InternalState.EscrowedCoin.Redeem.Length");
+                        Console.WriteLine(InternalState.EscrowedCoin.Redeem.Length);
+                        Console.WriteLine("CheckBlindedFactors: InternalState.OfferTransactionFee");
+                        Console.WriteLine(InternalState.OfferTransactionFee);
 			tx = GetUnsignedOfferTransaction();
 			TransactionSignature signature = SignEscrow(tx);
 
@@ -347,6 +353,14 @@ namespace NTumbleBit.PuzzleSolver
 			fulfill.Outputs.Add(new TxOut(offerCoin.Amount, cashout));
 			var size = new OfferBuilderExtension().EstimateScriptSigSize(offerCoin.Redeem);
 			fulfill.Outputs[0].Value -= feeRate.GetFee(size);
+			Console.WriteLine("FulfillOffer: size");
+			Console.WriteLine(size);
+			Console.WriteLine("FulfillOffer: feeRate.ToString()");
+			Console.WriteLine(feeRate.ToString());
+			Console.WriteLine("FulfillOffer: feeRate.GetFee(size)");
+			Console.WriteLine(feeRate.GetFee(size));
+			Console.WriteLine("FulfillOffer: fulfill.Outputs[0].Value");
+			Console.WriteLine(fulfill.Outputs[0].Value);
 
 			var signature = fulfill.Inputs.AsIndexedInputs().First().Sign(InternalState.FulfillKey, offerCoin, SigHash.All);
 			var fulfillScript = SolverScriptBuilder.CreateFulfillScript(signature, solutions);

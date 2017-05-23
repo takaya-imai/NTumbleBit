@@ -245,8 +245,16 @@ namespace NTumbleBit.PuzzlePromise
 			Transaction cashout = new Transaction();
 			cashout.AddInput(new TxIn(InternalState.EscrowedCoin.Outpoint, Script.Empty));
 			cashout.AddOutput(new TxOut(Money.Zero, cashoutDestination));
+			Console.WriteLine("CreateSignatureRequest: feeRate.ToString()");
+			Console.WriteLine(feeRate.ToString());
 			var fee = feeRate.GetFee(cashout.GetVirtualSize());
+			Console.WriteLine("CreateSignatureRequest: cashout.GetVirtualSize()");
+			Console.WriteLine(cashout.GetVirtualSize());
+			Console.WriteLine("CreateSignatureRequest: fee");
+			Console.WriteLine(fee);
 			cashout.Outputs[0].Value = InternalState.EscrowedCoin.Amount - fee;
+			Console.WriteLine("CreateSignatureRequest: cashout.Outputs[0].Value");
+			Console.WriteLine(cashout.Outputs[0].Value);
 
 
 			List<HashBase> hashes = new List<HashBase>();

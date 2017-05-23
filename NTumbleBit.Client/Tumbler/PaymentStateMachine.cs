@@ -180,6 +180,8 @@ namespace NTumbleBit.Client.Tumbler
 						//Client create the escrow
 						var txout = ClientChannelNegotiation.BuildClientEscrowTxOut();
 						feeRate = GetFeeRate();
+                                                logger.LogInformation("CyclePhase.ClientChannelEstablishment");
+                                                logger.LogInformation(feeRate.ToString());
 
 						Transaction clientEscrowTx = null;
 						try
@@ -236,6 +238,8 @@ namespace NTumbleBit.Client.Tumbler
 						//Channel is done, now need to run the promise protocol to get valid puzzle
 						var cashoutDestination = DestinationWallet.GetNewDestination();
 						feeRate = GetFeeRate();
+                                                logger.LogInformation("CyclePhase.TumblerChannelEstablishment");
+                                                logger.LogInformation(feeRate.ToString());
 						var sigReq = PromiseClientSession.CreateSignatureRequest(cashoutDestination, feeRate);
 						var commiments = BobClient.SignHashes(cycle.Start, PromiseClientSession.Id, sigReq);
 						var revelation = PromiseClientSession.Reveal(commiments);
@@ -262,6 +266,8 @@ namespace NTumbleBit.Client.Tumbler
 						{
 							logger.LogInformation("Tumbler escrow confirmed " + tumblerTx.Transaction.GetHash());
 							feeRate = GetFeeRate();
+                                                        logger.LogInformation("SolverClientStates.WaitingGeneratePuzzles");
+                                                        logger.LogInformation(feeRate.ToString());
 							var puzzles = SolverClientSession.GeneratePuzzles();
 							var commmitments = AliceClient.SolvePuzzles(cycle.Start, SolverClientSession.Id, puzzles);
 							var revelation2 = SolverClientSession.Reveal(commmitments);
